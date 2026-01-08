@@ -1,0 +1,143 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local player = Players.LocalPlayer
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "ExplorerGUI"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local main = Instance.new("Frame")
+main.Parent = gui
+main.Size = UDim2.new(0, 420, 0, 300)
+main.Position = UDim2.new(0.5, -210, 0.5, -150)
+main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+main.BorderSizePixel = 0
+Instance.new("UICorner", main).CornerRadius = UDim.new(0, 12)
+
+local shadow = Instance.new("ImageLabel")
+shadow.Parent = main
+shadow.Size = UDim2.new(1, 40, 1, 40)
+shadow.Position = UDim2.new(0, -20, 0, -20)
+shadow.Image = "rbxassetid://1316045217"
+shadow.ImageTransparency = 0.6
+shadow.ScaleType = Enum.ScaleType.Slice
+shadow.SliceCenter = Rect.new(10, 10, 118, 118)
+shadow.BackgroundTransparency = 1
+shadow.ZIndex = 0
+
+local titleBar = Instance.new("Frame")
+titleBar.Parent = main
+titleBar.Size = UDim2.new(1, 0, 0, 45)
+titleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+titleBar.BorderSizePixel = 0
+Instance.new("UICorner", titleBar).CornerRadius = UDim.new(0, 12)
+
+local fix = Instance.new("Frame")
+fix.Parent = titleBar
+fix.Size = UDim2.new(1, 0, 0, 12)
+fix.Position = UDim2.new(0, 0, 1, -12)
+fix.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+fix.BorderSizePixel = 0
+
+local title = Instance.new("TextLabel")
+title.Parent = titleBar
+title.Size = UDim2.new(1, -20, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.Text = "BUGGY EXPLORER AND SCANNER SCRIPTS"
+title.TextColor3 = Color3.fromRGB(230, 230, 230)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 20
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.BackgroundTransparency = 1
+
+local container = Instance.new("Frame")
+container.Parent = main
+container.Size = UDim2.new(1, -40, 1, -90)
+container.Position = UDim2.new(0, 20, 0, 65)
+container.BackgroundTransparency = 1
+
+local layout = Instance.new("UIListLayout", container)
+layout.Padding = UDim.new(0, 15)
+layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+layout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+local function createButton(text)
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(1, 0, 0, 50)
+	btn.Text = text
+	btn.Font = Enum.Font.GothamBold
+	btn.TextSize = 16
+	btn.TextColor3 = Color3.fromRGB(240, 240, 240)
+	btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	btn.BorderSizePixel = 0
+	btn.AutoButtonColor = false
+	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
+
+	btn.MouseEnter:Connect(function()
+		btn.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+	end)
+
+	btn.MouseLeave:Connect(function()
+		btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	end)
+
+	return btn
+end
+
+local dexBtn = createButton("Dex ++")
+dexBtn.Parent = container
+
+local ultimateBtn = createButton("Ultimate Finder")
+ultimateBtn.Parent = container
+
+local luauBtn = createButton("Luau X")
+luauBtn.Parent = container
+
+dexBtn.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Dex-Explorer-DPP-73687"))()
+end)
+
+ultimateBtn.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://pastefy.app/MVGE6jSU/raw?part=ULTIMATE_FINDER"))()
+end)
+
+luauBtn.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Luau-X-SS-V5-rework-50365"))()
+end)
+
+local dragging = false
+local dragStart
+local startPos
+
+local function update(input)
+	local delta = input.Position - dragStart
+	main.Position = UDim2.new(
+		startPos.X.Scale,
+		startPos.X.Offset + delta.X,
+		startPos.Y.Scale,
+		startPos.Y.Offset + delta.Y
+	)
+end
+
+titleBar.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1
+	or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = main.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+titleBar.InputChanged:Connect(function(input)
+	if dragging
+	and (input.UserInputType == Enum.UserInputType.MouseMovement
+	or input.UserInputType == Enum.UserInputType.Touch) then
+		update(input)
+	end
+end)
